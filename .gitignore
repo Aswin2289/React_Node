@@ -1,3 +1,5 @@
 backend/api/node_modules
 .idea
+.idea/sonarlint
 backend/api/package-lock.json
+backend/api/.env
