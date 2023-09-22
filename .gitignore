@@ -6,3 +6,4 @@ backend/api/.env
 .idea/sonarlint/issuestore/index.pb
 .idea/sonarlint/securityhotspotstore/index.pb
 backend/api/package-lock.json
+package-lock.json
