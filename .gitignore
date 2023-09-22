@@ -3,3 +3,6 @@ backend/api/node_modules
 .idea/sonarlint
 backend/api/package-lock.json
 backend/api/.env
+.idea/sonarlint/issuestore/index.pb
+.idea/sonarlint/securityhotspotstore/index.pb
+backend/api/package-lock.json
