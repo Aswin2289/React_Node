@@ -1,8 +1,11 @@
 const express = require('express')
 const mongoose=require('mongoose')
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
 const app = express()
-const port=3000
-const url = 'mongodb://localhost:27017/nodeproject'
+dotenv.config();
+let port=process.env.port
+let url=process.env.url
 mongoose.connect(url)
 const con= mongoose.connection
 con.on('open',()=>{
