@@ -1,6 +1,9 @@
 const user = require("../models/User");
+const Video = require("../models/Video");
 const bcrypt = require("bcryptjs");
 const tokenUtil = require("../util/tokenUtil");
+const uploads = require("../util/videoUploadUtil");
+const multer = require("multer");
 
 const getUser = async (req, res, next) => {
   try {
@@ -31,7 +34,7 @@ const userDetailView = async (req, res) => {
   const query = { email: req.body.email };
   const options = { email: 1, password: 1 };
   try {
-    const userView = await user.findOne(query);
+    const userView = await user.findOne(query,options);
     if (!userView) {
       res.status(404).json({ message: "User not found" });
       return;
@@ -80,13 +83,38 @@ const currentUser = async (req, res, next) => {
       );
     }
 
-    const decodeToken = tokenUtil.verify(req);
+    const userDetails = tokenUtil.verify(req);
     res.status(200).json({
-      decodeToken,
+      userDetails,
     });
   } catch (error) {
-    return res.status(401).json({message: "UnAuthorized",});
+    return next(res.status(401).json({ message: "UnAuthorized" }));
   }
 };
 
-module.exports = { getUser, addUser, userDetailView, login, currentUser };
+const videoUpload = async (req, res, next) => {
+  try {
+    console.log("-->", req.file.path);
+    const { title, description } = req.body;
+
+    const video = new Video({
+      title,
+      description,
+      videoPath: req.file.path,
+    });
+    await video.save();
+    res.status(201).send("Video uploaded successfully!");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+module.exports = {
+  getUser,
+  addUser,
+  userDetailView,
+  login,
+  currentUser,
+  videoUpload,
+};
